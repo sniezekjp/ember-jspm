@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="jspm_packages/system.js"></script>
+	<script src="config.js"></script>
+</head>
+<body>
+	<script>
+		System.import('app/app', 'app/utils/register').then(function() {
+			Promise.all([
+				System.import('ember'),
+				System.import('app/components/first-comp'),
+				System.import('app/components/second-comp')
+			]).then(function(modules) {
+				setTimeout(function() {
+					var Ember = modules[0];
+					var m = modules[1]['default'];
+					var m2 = modules[2]['default'];
+
+					Ember.c.register('component:second-comp', m2);
+					
+					var comp = m.create({
+						container: Ember.c
+					});
+					comp.append();
+				});
+			});
+		});
+	</script>
+</body>
+</html>
